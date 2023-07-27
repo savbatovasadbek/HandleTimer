@@ -14,25 +14,37 @@ reset.addEventListener("click", () => {
   timer = prompt("Daqidani kiriting");
 
   if (!isNaN(timer)) {
-    min.innerHTML = timer >= 10 ? timer : "0" + timer;
     minut = timer * 1;
+    second = 0;
+    min.innerHTML = minut >= 10 ? minut : "0" + minut;
+    sec.innerHTML = "00";
+    play();
+    clearInterval(currentInterval);
     start.removeAttribute("disabled");
   }
 });
+
+function play() {
+  start.style.backgroundColor = "#00b84c";
+  start.style.color = "#fff";
+  sign.setAttribute("class", "fa-solid fa-play");
+}
+
+function pause() {
+  sign.setAttribute("class", "fa-solid fa-pause");
+  start.style.backgroundColor = "rgb(244, 155, 155)";
+  start.style.color = "red";
+}
 
 let currentInterval = null;
 let isStarted = false;
 
 start.addEventListener("click", () => {
   if (!isStarted) {
-    sign.setAttribute("class", "fa-solid fa-pause");
-    start.style.backgroundColor = "rgb(244, 155, 155)";
-    start.style.color = "red";
+    pause();
     interval();
   } else {
-    start.style.backgroundColor = "#00b84c";
-    start.style.color = "#fff";
-    sign.setAttribute("class", "fa-solid fa-play");
+    play();
     clearInterval(currentInterval);
   }
   isStarted = !isStarted;
@@ -48,9 +60,7 @@ function interval() {
     }
     if (minut == 0 && second == 0) {
       clearInterval(currentInterval);
-      start.style.backgroundColor = "#00b84c";
-      start.style.color = "#fff";
-      sign.setAttribute("class", "fa-solid fa-play");
+      play();
       start.setAttribute("disabled", "");
     }
     min.textContent = minut >= 10 ? minut : "0" + minut;
